@@ -1,3 +1,7 @@
+# ⚠️ Unmaintained ⚠️
+
+I haven't used this tool in a real way in several years, and don't have the bandwidth to commit to continuing to maintain it. As such, this repo is archived. You're free to continue to using tree-grepper, of course, but what you see here is what you get.
+
 # tree-grepper
 
 Works like `grep`, but uses `tree-sitter` to search for structure instead of strings.
