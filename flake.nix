@@ -5,95 +5,9 @@
     naersk.url = "github:nmattia/naersk";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    # tree-sitter grammars
-    tree-sitter-c = {
-      url = "github:tree-sitter/tree-sitter-c";
-      flake = false;
-    };
-
-    tree-sitter-cpp = {
-      url = "github:tree-sitter/tree-sitter-cpp";
-      flake = false;
-    };
-
-    tree-sitter-nix = {
-      url = "github:cstrahan/tree-sitter-nix";
-      flake = false;
-    };
-
-    tree-sitter-elixir = {
-      url = "github:elixir-lang/tree-sitter-elixir/main";
-      flake = false;
-    };
-
-    tree-sitter-elm = {
-      url = "github:elm-tooling/tree-sitter-elm/main";
-      flake = false;
-    };
-
-    tree-sitter-go = {
-      url = "github:tree-sitter/tree-sitter-go";
-      flake = false;
-    };
-
-    tree-sitter-haskell = {
-      url = "github:tree-sitter/tree-sitter-haskell";
-      flake = false;
-    };
-
-    tree-sitter-javascript = {
-      url = "github:tree-sitter/tree-sitter-javascript";
-      flake = false;
-    };
-
-    tree-sitter-markdown = {
-      url = "github:tree-sitter-grammars/tree-sitter-markdown";
-      flake = false;
-    };
-
-    tree-sitter-php = {
-      url = "github:tree-sitter/tree-sitter-php";
-      flake = false;
-    };
-
-    tree-sitter-python = {
-      url = "github:tree-sitter/tree-sitter-python";
-      flake = false;
-    };
-
-    tree-sitter-ruby = {
-      url = "github:tree-sitter/tree-sitter-ruby";
-      flake = false;
-    };
-
-    tree-sitter-rust = {
-      url = "github:tree-sitter/tree-sitter-rust";
-      flake = false;
-    };
-
-    tree-sitter-scss = {
-      url = "github:serenadeai/tree-sitter-scss";
-      flake = false;
-    };
-
-    tree-sitter-typescript = {
-      url = "github:tree-sitter/tree-sitter-typescript";
-      flake = false;
-    };
-
-    tree-sitter-java = {
-      url = "github:tree-sitter/tree-sitter-java";
-      flake = false;
-    };
-    
-    tree-sitter-cuda = {
-      url = "github:theHamsta/tree-sitter-cuda/v0.20.3";
-      flake = false;
-    };
-    
-    tree-sitter-powershell = {
-      url = "github:airbus-cert/tree-sitter-powershell";
-      flake = false;
+    nix-treesitter = {
+      url = "github:ratson/nix-treesitter";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -103,6 +17,7 @@
         pkgs = import inputs.nixpkgs { inherit system; };
         naersk-lib = inputs.naersk.lib."${system}";
         darwinInputs = if pkgs.stdenv.isDarwin then [ pkgs.xcbuild ] else [ ];
+        grammars = inputs.nix-treesitter.packages.${system};
 
         updateVendor = pkgs.writeShellScriptBin "update-vendor" ''
           set -euo pipefail
@@ -111,24 +26,24 @@
           mkdir vendor
 
           set -x
-          ln -s ${inputs.tree-sitter-c} vendor/tree-sitter-c
-          ln -s ${inputs.tree-sitter-cpp} vendor/tree-sitter-cpp
-          ln -s ${inputs.tree-sitter-elixir} vendor/tree-sitter-elixir
-          ln -s ${inputs.tree-sitter-elm} vendor/tree-sitter-elm
-          ln -s ${inputs.tree-sitter-go} vendor/tree-sitter-go
-          ln -s ${inputs.tree-sitter-haskell} vendor/tree-sitter-haskell
-          ln -s ${inputs.tree-sitter-java} vendor/tree-sitter-java
-          ln -s ${inputs.tree-sitter-javascript} vendor/tree-sitter-javascript
-          ln -s ${inputs.tree-sitter-markdown} vendor/tree-sitter-markdown
-          ln -s ${inputs.tree-sitter-php} vendor/tree-sitter-php
-          ln -s ${inputs.tree-sitter-python} vendor/tree-sitter-python
-          ln -s ${inputs.tree-sitter-ruby} vendor/tree-sitter-ruby
-          ln -s ${inputs.tree-sitter-rust} vendor/tree-sitter-rust
-          ln -s ${inputs.tree-sitter-scss} vendor/tree-sitter-scss
-          ln -s ${inputs.tree-sitter-typescript} vendor/tree-sitter-typescript
-          ln -s ${inputs.tree-sitter-nix} vendor/tree-sitter-nix
-          ln -s ${inputs.tree-sitter-cuda} vendor/tree-sitter-cuda
-          ln -s ${inputs.tree-sitter-powershell} vendor/tree-sitter-powershell
+          ln -s ${grammars.tree-sitter-c.src} vendor/tree-sitter-c
+          ln -s ${grammars.tree-sitter-cpp.src} vendor/tree-sitter-cpp
+          ln -s ${grammars.tree-sitter-elixir.src} vendor/tree-sitter-elixir
+          ln -s ${grammars.tree-sitter-elm.src} vendor/tree-sitter-elm
+          ln -s ${grammars.tree-sitter-go.src} vendor/tree-sitter-go
+          ln -s ${grammars.tree-sitter-haskell.src} vendor/tree-sitter-haskell
+          ln -s ${grammars.tree-sitter-java.src} vendor/tree-sitter-java
+          ln -s ${grammars.tree-sitter-javascript.src} vendor/tree-sitter-javascript
+          ln -s ${grammars.tree-sitter-markdown.src} vendor/tree-sitter-markdown
+          ln -s ${grammars.tree-sitter-nix.src} vendor/tree-sitter-nix
+          ln -s ${grammars.tree-sitter-php.src} vendor/tree-sitter-php
+          ln -s ${grammars.tree-sitter-python.src} vendor/tree-sitter-python
+          ln -s ${grammars.tree-sitter-ruby.src} vendor/tree-sitter-ruby
+          ln -s ${grammars.tree-sitter-rust.src} vendor/tree-sitter-rust
+          ln -s ${grammars.tree-sitter-scss.src} vendor/tree-sitter-scss
+          ln -s ${grammars.tree-sitter-typescript.src} vendor/tree-sitter-typescript
+          ln -s ${grammars.tree-sitter-cuda.src} vendor/tree-sitter-cuda
+          ln -s ${grammars.tree-sitter-powershell.src} vendor/tree-sitter-powershell
         '';
       in rec {
         # `nix build`
