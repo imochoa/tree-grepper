@@ -53,7 +53,7 @@ impl Extractor {
         &self,
         path: &Path,
         parser: &mut Parser,
-    ) -> Result<Option<ExtractedFile>> {
+    ) -> Result<Option<ExtractedFile<'_>>> {
         let source = fs::read(path).context("could not read file")?;
 
         self.extract_from_text(Some(path), &source, parser)
@@ -64,7 +64,7 @@ impl Extractor {
         path: Option<&Path>,
         source: &[u8],
         parser: &mut Parser,
-    ) -> Result<Option<ExtractedFile>> {
+    ) -> Result<Option<ExtractedFile<'_>>> {
         parser
             .set_language(&self.ts_language)
             .context("could not set language")?;

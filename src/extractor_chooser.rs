@@ -10,7 +10,7 @@ pub struct ExtractorChooser<'extractor> {
 }
 
 impl ExtractorChooser<'_> {
-    pub fn from_extractors(extractors: &[Extractor]) -> Result<ExtractorChooser> {
+    pub fn from_extractors(extractors: &[Extractor]) -> Result<ExtractorChooser<'_>> {
         let mut types_builder = TypesBuilder::new();
         types_builder.add_defaults();
         types_builder.add_def("cuda:*.cu,*.cuh,*.hpp")?;

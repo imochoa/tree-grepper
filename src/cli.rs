@@ -24,7 +24,7 @@ pub struct QueryOpts {
 }
 
 impl QueryOpts {
-    pub fn extractor_chooser(&self) -> Result<ExtractorChooser> {
+    pub fn extractor_chooser(&self) -> Result<ExtractorChooser<'_>> {
         ExtractorChooser::from_extractors(&self.extractors)
     }
 }
